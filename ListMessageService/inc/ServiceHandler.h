@@ -37,7 +37,18 @@ public:
             return m_pmodel->putData(key, data);
         return OpenStars::Platform::ListMessageService::TErrorCode::EUnknown;
     }
-
+    OpenStars::Platform::ListMessageService::TErrorCode::type addMessage(const OpenStars::Platform::ListMessageService::TKey cid, const int64_t mid)
+    {
+        if (this->m_pmodel)
+            return m_pmodel->addMessage(cid, mid);
+        return OpenStars::Platform::ListMessageService::TErrorCode::EUnknown;
+    }
+    OpenStars::Platform::ListMessageService::TErrorCode::type removeMessage(const OpenStars::Platform::ListMessageService::TKey cid, const int64_t mid)
+    {
+        if (this->m_pmodel)
+            return m_pmodel->removeMessage(cid, mid);
+        return OpenStars::Platform::ListMessageService::TErrorCode::EUnknown;
+    }
 };
 
 #endif /* SERVICEHANDLER_H */

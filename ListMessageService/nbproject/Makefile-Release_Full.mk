@@ -39,9 +39,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/ServiceModel.o \
 	${OBJECTDIR}/src/main.o \
 	${OBJECTDIR}/thrift/gen-cpp/TDataService.o \
+	${OBJECTDIR}/thrift/gen-cpp/TListMessageService.o \
 	${OBJECTDIR}/thrift/gen-cpp/listmessageservice_constants.o \
-	${OBJECTDIR}/thrift/gen-cpp/listmessageservice_types.o \
-	${OBJECTDIR}/thrift/gen-cpp/TListMessageService.o
+	${OBJECTDIR}/thrift/gen-cpp/listmessageservice_types.o
 
 
 # C Compiler Flags
@@ -102,6 +102,11 @@ ${OBJECTDIR}/thrift/gen-cpp/TDataService.o: thrift/gen-cpp/TDataService.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -DHAVE_CONFIG_H -Iinc -I../../contribs/LibEvent/include -I../../contribs/Boost/include -I../../contribs/Poco/include -I../../contribs/ApacheThrift/include -I../../contribs/SpecialContribs/include -Ithrift/gen-cpp -I../../contribs/SpecialContribs/src/hashkit -I../../contribs/SpecialContribs/src/libstatgrab -I../../contribs/SpecialContribs/include/kyotocabinet -I../../contribs/SpecialContribs/include/leveldb -I../../contribs/SpecialContribs/src/ -I../../corelibs/BaseFoundation/include -I../../corelibs/OpenStorage/inc -I../../corelibs/BaseFoundation/thrift/gen-cpp -IClient -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/thrift/gen-cpp/TDataService.o thrift/gen-cpp/TDataService.cpp
 
+${OBJECTDIR}/thrift/gen-cpp/TListMessageService.o: thrift/gen-cpp/TListMessageService.cpp
+	${MKDIR} -p ${OBJECTDIR}/thrift/gen-cpp
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -DHAVE_CONFIG_H -Iinc -I../../contribs/LibEvent/include -I../../contribs/Boost/include -I../../contribs/Poco/include -I../../contribs/ApacheThrift/include -I../../contribs/SpecialContribs/include -Ithrift/gen-cpp -I../../contribs/SpecialContribs/src/hashkit -I../../contribs/SpecialContribs/src/libstatgrab -I../../contribs/SpecialContribs/include/kyotocabinet -I../../contribs/SpecialContribs/include/leveldb -I../../contribs/SpecialContribs/src/ -I../../corelibs/BaseFoundation/include -I../../corelibs/OpenStorage/inc -I../../corelibs/BaseFoundation/thrift/gen-cpp -IClient -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/thrift/gen-cpp/TListMessageService.o thrift/gen-cpp/TListMessageService.cpp
+
 ${OBJECTDIR}/thrift/gen-cpp/listmessageservice_constants.o: thrift/gen-cpp/listmessageservice_constants.cpp
 	${MKDIR} -p ${OBJECTDIR}/thrift/gen-cpp
 	${RM} "$@.d"
@@ -111,11 +116,6 @@ ${OBJECTDIR}/thrift/gen-cpp/listmessageservice_types.o: thrift/gen-cpp/listmessa
 	${MKDIR} -p ${OBJECTDIR}/thrift/gen-cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -DHAVE_CONFIG_H -Iinc -I../../contribs/LibEvent/include -I../../contribs/Boost/include -I../../contribs/Poco/include -I../../contribs/ApacheThrift/include -I../../contribs/SpecialContribs/include -Ithrift/gen-cpp -I../../contribs/SpecialContribs/src/hashkit -I../../contribs/SpecialContribs/src/libstatgrab -I../../contribs/SpecialContribs/include/kyotocabinet -I../../contribs/SpecialContribs/include/leveldb -I../../contribs/SpecialContribs/src/ -I../../corelibs/BaseFoundation/include -I../../corelibs/OpenStorage/inc -I../../corelibs/BaseFoundation/thrift/gen-cpp -IClient -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/thrift/gen-cpp/listmessageservice_types.o thrift/gen-cpp/listmessageservice_types.cpp
-
-${OBJECTDIR}/thrift/gen-cpp/TListMessageService.o: thrift/gen-cpp/TListMessageService.cpp
-	${MKDIR} -p ${OBJECTDIR}/thrift/gen-cpp
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -DHAVE_CONFIG_H -Iinc -I../../contribs/LibEvent/include -I../../contribs/Boost/include -I../../contribs/Poco/include -I../../contribs/ApacheThrift/include -I../../contribs/SpecialContribs/include -Ithrift/gen-cpp -I../../contribs/SpecialContribs/src/hashkit -I../../contribs/SpecialContribs/src/libstatgrab -I../../contribs/SpecialContribs/include/kyotocabinet -I../../contribs/SpecialContribs/include/leveldb -I../../contribs/SpecialContribs/src/ -I../../corelibs/BaseFoundation/include -I../../corelibs/OpenStorage/inc -I../../corelibs/BaseFoundation/thrift/gen-cpp -IClient -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/thrift/gen-cpp/TListMessageService.o thrift/gen-cpp/TListMessageService.cpp
 
 # Subprojects
 .build-subprojects:

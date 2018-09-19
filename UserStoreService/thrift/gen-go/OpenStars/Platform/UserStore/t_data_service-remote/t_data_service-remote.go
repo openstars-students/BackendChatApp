@@ -27,8 +27,6 @@ func Usage() {
   fmt.Fprintln(os.Stderr, "  TErrorCode hasUser(string username,  keys)")
   fmt.Fprintln(os.Stderr, "  TKey getIDByPublicKey(string publickey, i64 lastkey)")
   fmt.Fprintln(os.Stderr, "  TErrorCode putData(TKey key, TUserInfo data)")
-  fmt.Fprintln(os.Stderr, "  TErrorCode addConversation(TKey uid, i64 cid)")
-  fmt.Fprintln(os.Stderr, "  TErrorCode deleteConversation(TKey uid, i64 cid)")
   fmt.Fprintln(os.Stderr, "  TErrorCode deleteUser(TKey uid)")
   fmt.Fprintln(os.Stderr)
   os.Exit(0)
@@ -132,8 +130,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "GetData requires 1 args")
       flag.Usage()
     }
-    argvalue0, err29 := (strconv.ParseInt(flag.Arg(1), 10, 64))
-    if err29 != nil {
+    argvalue0, err25 := (strconv.ParseInt(flag.Arg(1), 10, 64))
+    if err25 != nil {
       Usage()
       return
     }
@@ -146,19 +144,19 @@ func main() {
       fmt.Fprintln(os.Stderr, "GetListUsers requires 1 args")
       flag.Usage()
     }
-    arg30 := flag.Arg(1)
-    mbTrans31 := thrift.NewTMemoryBufferLen(len(arg30))
-    defer mbTrans31.Close()
-    _, err32 := mbTrans31.WriteString(arg30)
-    if err32 != nil { 
+    arg26 := flag.Arg(1)
+    mbTrans27 := thrift.NewTMemoryBufferLen(len(arg26))
+    defer mbTrans27.Close()
+    _, err28 := mbTrans27.WriteString(arg26)
+    if err28 != nil { 
       Usage()
       return
     }
-    factory33 := thrift.NewTSimpleJSONProtocolFactory()
-    jsProt34 := factory33.GetProtocol(mbTrans31)
+    factory29 := thrift.NewTSimpleJSONProtocolFactory()
+    jsProt30 := factory29.GetProtocol(mbTrans27)
     containerStruct0 := UserStore.NewTDataServiceGetListUsersArgs()
-    err35 := containerStruct0.ReadField1(jsProt34)
-    if err35 != nil {
+    err31 := containerStruct0.ReadField1(jsProt30)
+    if err31 != nil {
       Usage()
       return
     }
@@ -174,19 +172,19 @@ func main() {
     }
     argvalue0 := flag.Arg(1)
     value0 := argvalue0
-    arg37 := flag.Arg(2)
-    mbTrans38 := thrift.NewTMemoryBufferLen(len(arg37))
-    defer mbTrans38.Close()
-    _, err39 := mbTrans38.WriteString(arg37)
-    if err39 != nil { 
+    arg33 := flag.Arg(2)
+    mbTrans34 := thrift.NewTMemoryBufferLen(len(arg33))
+    defer mbTrans34.Close()
+    _, err35 := mbTrans34.WriteString(arg33)
+    if err35 != nil { 
       Usage()
       return
     }
-    factory40 := thrift.NewTSimpleJSONProtocolFactory()
-    jsProt41 := factory40.GetProtocol(mbTrans38)
+    factory36 := thrift.NewTSimpleJSONProtocolFactory()
+    jsProt37 := factory36.GetProtocol(mbTrans34)
     containerStruct1 := UserStore.NewTDataServiceHasUserArgs()
-    err42 := containerStruct1.ReadField2(jsProt41)
-    if err42 != nil {
+    err38 := containerStruct1.ReadField2(jsProt37)
+    if err38 != nil {
       Usage()
       return
     }
@@ -202,8 +200,8 @@ func main() {
     }
     argvalue0 := flag.Arg(1)
     value0 := argvalue0
-    argvalue1, err44 := (strconv.ParseInt(flag.Arg(2), 10, 64))
-    if err44 != nil {
+    argvalue1, err40 := (strconv.ParseInt(flag.Arg(2), 10, 64))
+    if err40 != nil {
       Usage()
       return
     }
@@ -216,25 +214,25 @@ func main() {
       fmt.Fprintln(os.Stderr, "PutData requires 2 args")
       flag.Usage()
     }
-    argvalue0, err45 := (strconv.ParseInt(flag.Arg(1), 10, 64))
-    if err45 != nil {
+    argvalue0, err41 := (strconv.ParseInt(flag.Arg(1), 10, 64))
+    if err41 != nil {
       Usage()
       return
     }
     value0 := UserStore.TKey(argvalue0)
-    arg46 := flag.Arg(2)
-    mbTrans47 := thrift.NewTMemoryBufferLen(len(arg46))
-    defer mbTrans47.Close()
-    _, err48 := mbTrans47.WriteString(arg46)
-    if err48 != nil {
+    arg42 := flag.Arg(2)
+    mbTrans43 := thrift.NewTMemoryBufferLen(len(arg42))
+    defer mbTrans43.Close()
+    _, err44 := mbTrans43.WriteString(arg42)
+    if err44 != nil {
       Usage()
       return
     }
-    factory49 := thrift.NewTSimpleJSONProtocolFactory()
-    jsProt50 := factory49.GetProtocol(mbTrans47)
+    factory45 := thrift.NewTSimpleJSONProtocolFactory()
+    jsProt46 := factory45.GetProtocol(mbTrans43)
     argvalue1 := UserStore.NewTUserInfo()
-    err51 := argvalue1.Read(jsProt50)
-    if err51 != nil {
+    err47 := argvalue1.Read(jsProt46)
+    if err47 != nil {
       Usage()
       return
     }
@@ -242,53 +240,13 @@ func main() {
     fmt.Print(client.PutData(context.Background(), value0, value1))
     fmt.Print("\n")
     break
-  case "addConversation":
-    if flag.NArg() - 1 != 2 {
-      fmt.Fprintln(os.Stderr, "AddConversation requires 2 args")
-      flag.Usage()
-    }
-    argvalue0, err52 := (strconv.ParseInt(flag.Arg(1), 10, 64))
-    if err52 != nil {
-      Usage()
-      return
-    }
-    value0 := UserStore.TKey(argvalue0)
-    argvalue1, err53 := (strconv.ParseInt(flag.Arg(2), 10, 64))
-    if err53 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    fmt.Print(client.AddConversation(context.Background(), value0, value1))
-    fmt.Print("\n")
-    break
-  case "deleteConversation":
-    if flag.NArg() - 1 != 2 {
-      fmt.Fprintln(os.Stderr, "DeleteConversation requires 2 args")
-      flag.Usage()
-    }
-    argvalue0, err54 := (strconv.ParseInt(flag.Arg(1), 10, 64))
-    if err54 != nil {
-      Usage()
-      return
-    }
-    value0 := UserStore.TKey(argvalue0)
-    argvalue1, err55 := (strconv.ParseInt(flag.Arg(2), 10, 64))
-    if err55 != nil {
-      Usage()
-      return
-    }
-    value1 := argvalue1
-    fmt.Print(client.DeleteConversation(context.Background(), value0, value1))
-    fmt.Print("\n")
-    break
   case "deleteUser":
     if flag.NArg() - 1 != 1 {
       fmt.Fprintln(os.Stderr, "DeleteUser requires 1 args")
       flag.Usage()
     }
-    argvalue0, err56 := (strconv.ParseInt(flag.Arg(1), 10, 64))
-    if err56 != nil {
+    argvalue0, err48 := (strconv.ParseInt(flag.Arg(1), 10, 64))
+    if err48 != nil {
       Usage()
       return
     }

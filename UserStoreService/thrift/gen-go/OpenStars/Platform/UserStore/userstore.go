@@ -1159,14 +1159,6 @@ type TDataService interface {
   PutData(ctx context.Context, key TKey, data *TUserInfo) (r TErrorCode, err error)
   // Parameters:
   //  - UID
-  //  - Cid
-  AddConversation(ctx context.Context, uid TKey, cid int64) (r TErrorCode, err error)
-  // Parameters:
-  //  - UID
-  //  - Cid
-  DeleteConversation(ctx context.Context, uid TKey, cid int64) (r TErrorCode, err error)
-  // Parameters:
-  //  - UID
   DeleteUser(ctx context.Context, uid TKey) (r TErrorCode, err error)
 }
 
@@ -1262,42 +1254,14 @@ func (p *TDataServiceClient) PutData(ctx context.Context, key TKey, data *TUserI
 
 // Parameters:
 //  - UID
-//  - Cid
-func (p *TDataServiceClient) AddConversation(ctx context.Context, uid TKey, cid int64) (r TErrorCode, err error) {
-  var _args19 TDataServiceAddConversationArgs
+func (p *TDataServiceClient) DeleteUser(ctx context.Context, uid TKey) (r TErrorCode, err error) {
+  var _args19 TDataServiceDeleteUserArgs
   _args19.UID = uid
-  _args19.Cid = cid
-  var _result20 TDataServiceAddConversationResult
-  if err = p.c.Call(ctx, "addConversation", &_args19, &_result20); err != nil {
+  var _result20 TDataServiceDeleteUserResult
+  if err = p.c.Call(ctx, "deleteUser", &_args19, &_result20); err != nil {
     return
   }
   return _result20.GetSuccess(), nil
-}
-
-// Parameters:
-//  - UID
-//  - Cid
-func (p *TDataServiceClient) DeleteConversation(ctx context.Context, uid TKey, cid int64) (r TErrorCode, err error) {
-  var _args21 TDataServiceDeleteConversationArgs
-  _args21.UID = uid
-  _args21.Cid = cid
-  var _result22 TDataServiceDeleteConversationResult
-  if err = p.c.Call(ctx, "deleteConversation", &_args21, &_result22); err != nil {
-    return
-  }
-  return _result22.GetSuccess(), nil
-}
-
-// Parameters:
-//  - UID
-func (p *TDataServiceClient) DeleteUser(ctx context.Context, uid TKey) (r TErrorCode, err error) {
-  var _args23 TDataServiceDeleteUserArgs
-  _args23.UID = uid
-  var _result24 TDataServiceDeleteUserResult
-  if err = p.c.Call(ctx, "deleteUser", &_args23, &_result24); err != nil {
-    return
-  }
-  return _result24.GetSuccess(), nil
 }
 
 type TDataServiceProcessor struct {
@@ -1320,16 +1284,14 @@ func (p *TDataServiceProcessor) ProcessorMap() map[string]thrift.TProcessorFunct
 
 func NewTDataServiceProcessor(handler TDataService) *TDataServiceProcessor {
 
-  self25 := &TDataServiceProcessor{handler:handler, processorMap:make(map[string]thrift.TProcessorFunction)}
-  self25.processorMap["getData"] = &tDataServiceProcessorGetData{handler:handler}
-  self25.processorMap["getListUsers"] = &tDataServiceProcessorGetListUsers{handler:handler}
-  self25.processorMap["hasUser"] = &tDataServiceProcessorHasUser{handler:handler}
-  self25.processorMap["getIDByPublicKey"] = &tDataServiceProcessorGetIDByPublicKey{handler:handler}
-  self25.processorMap["putData"] = &tDataServiceProcessorPutData{handler:handler}
-  self25.processorMap["addConversation"] = &tDataServiceProcessorAddConversation{handler:handler}
-  self25.processorMap["deleteConversation"] = &tDataServiceProcessorDeleteConversation{handler:handler}
-  self25.processorMap["deleteUser"] = &tDataServiceProcessorDeleteUser{handler:handler}
-return self25
+  self21 := &TDataServiceProcessor{handler:handler, processorMap:make(map[string]thrift.TProcessorFunction)}
+  self21.processorMap["getData"] = &tDataServiceProcessorGetData{handler:handler}
+  self21.processorMap["getListUsers"] = &tDataServiceProcessorGetListUsers{handler:handler}
+  self21.processorMap["hasUser"] = &tDataServiceProcessorHasUser{handler:handler}
+  self21.processorMap["getIDByPublicKey"] = &tDataServiceProcessorGetIDByPublicKey{handler:handler}
+  self21.processorMap["putData"] = &tDataServiceProcessorPutData{handler:handler}
+  self21.processorMap["deleteUser"] = &tDataServiceProcessorDeleteUser{handler:handler}
+return self21
 }
 
 func (p *TDataServiceProcessor) Process(ctx context.Context, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
@@ -1340,12 +1302,12 @@ func (p *TDataServiceProcessor) Process(ctx context.Context, iprot, oprot thrift
   }
   iprot.Skip(thrift.STRUCT)
   iprot.ReadMessageEnd()
-  x26 := thrift.NewTApplicationException(thrift.UNKNOWN_METHOD, "Unknown function " + name)
+  x22 := thrift.NewTApplicationException(thrift.UNKNOWN_METHOD, "Unknown function " + name)
   oprot.WriteMessageBegin(name, thrift.EXCEPTION, seqId)
-  x26.Write(oprot)
+  x22.Write(oprot)
   oprot.WriteMessageEnd()
   oprot.Flush()
-  return false, x26
+  return false, x22
 
 }
 
@@ -1572,102 +1534,6 @@ var retval TErrorCode
     result.Success = &retval
 }
   if err2 = oprot.WriteMessageBegin("putData", thrift.REPLY, seqId); err2 != nil {
-    err = err2
-  }
-  if err2 = result.Write(oprot); err == nil && err2 != nil {
-    err = err2
-  }
-  if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
-    err = err2
-  }
-  if err2 = oprot.Flush(); err == nil && err2 != nil {
-    err = err2
-  }
-  if err != nil {
-    return
-  }
-  return true, err
-}
-
-type tDataServiceProcessorAddConversation struct {
-  handler TDataService
-}
-
-func (p *tDataServiceProcessorAddConversation) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
-  args := TDataServiceAddConversationArgs{}
-  if err = args.Read(iprot); err != nil {
-    iprot.ReadMessageEnd()
-    x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
-    oprot.WriteMessageBegin("addConversation", thrift.EXCEPTION, seqId)
-    x.Write(oprot)
-    oprot.WriteMessageEnd()
-    oprot.Flush()
-    return false, err
-  }
-
-  iprot.ReadMessageEnd()
-  result := TDataServiceAddConversationResult{}
-var retval TErrorCode
-  var err2 error
-  if retval, err2 = p.handler.AddConversation(ctx, args.UID, args.Cid); err2 != nil {
-    x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing addConversation: " + err2.Error())
-    oprot.WriteMessageBegin("addConversation", thrift.EXCEPTION, seqId)
-    x.Write(oprot)
-    oprot.WriteMessageEnd()
-    oprot.Flush()
-    return true, err2
-  } else {
-    result.Success = &retval
-}
-  if err2 = oprot.WriteMessageBegin("addConversation", thrift.REPLY, seqId); err2 != nil {
-    err = err2
-  }
-  if err2 = result.Write(oprot); err == nil && err2 != nil {
-    err = err2
-  }
-  if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
-    err = err2
-  }
-  if err2 = oprot.Flush(); err == nil && err2 != nil {
-    err = err2
-  }
-  if err != nil {
-    return
-  }
-  return true, err
-}
-
-type tDataServiceProcessorDeleteConversation struct {
-  handler TDataService
-}
-
-func (p *tDataServiceProcessorDeleteConversation) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
-  args := TDataServiceDeleteConversationArgs{}
-  if err = args.Read(iprot); err != nil {
-    iprot.ReadMessageEnd()
-    x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
-    oprot.WriteMessageBegin("deleteConversation", thrift.EXCEPTION, seqId)
-    x.Write(oprot)
-    oprot.WriteMessageEnd()
-    oprot.Flush()
-    return false, err
-  }
-
-  iprot.ReadMessageEnd()
-  result := TDataServiceDeleteConversationResult{}
-var retval TErrorCode
-  var err2 error
-  if retval, err2 = p.handler.DeleteConversation(ctx, args.UID, args.Cid); err2 != nil {
-    x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing deleteConversation: " + err2.Error())
-    oprot.WriteMessageBegin("deleteConversation", thrift.EXCEPTION, seqId)
-    x.Write(oprot)
-    oprot.WriteMessageEnd()
-    oprot.Flush()
-    return true, err2
-  } else {
-    result.Success = &retval
-}
-  if err2 = oprot.WriteMessageBegin("deleteConversation", thrift.REPLY, seqId); err2 != nil {
     err = err2
   }
   if err2 = result.Write(oprot); err == nil && err2 != nil {
@@ -1988,14 +1854,14 @@ func (p *TDataServiceGetListUsersArgs)  ReadField1(iprot thrift.TProtocol) error
   tSlice := make([]TKey, 0, size)
   p.Keys =  tSlice
   for i := 0; i < size; i ++ {
-var _elem27 TKey
+var _elem23 TKey
     if v, err := iprot.ReadI64(); err != nil {
     return thrift.PrependError("error reading field 0: ", err)
 } else {
     temp := TKey(v)
-    _elem27 = temp
+    _elem23 = temp
 }
-    p.Keys = append(p.Keys, _elem27)
+    p.Keys = append(p.Keys, _elem23)
   }
   if err := iprot.ReadListEnd(); err != nil {
     return thrift.PrependError("error reading list end: ", err)
@@ -2226,14 +2092,14 @@ func (p *TDataServiceHasUserArgs)  ReadField2(iprot thrift.TProtocol) error {
   tSlice := make([]TKey, 0, size)
   p.Keys =  tSlice
   for i := 0; i < size; i ++ {
-var _elem28 TKey
+var _elem24 TKey
     if v, err := iprot.ReadI64(); err != nil {
     return thrift.PrependError("error reading field 0: ", err)
 } else {
     temp := TKey(v)
-    _elem28 = temp
+    _elem24 = temp
 }
-    p.Keys = append(p.Keys, _elem28)
+    p.Keys = append(p.Keys, _elem24)
   }
   if err := iprot.ReadListEnd(); err != nil {
     return thrift.PrependError("error reading list end: ", err)
@@ -2857,464 +2723,6 @@ func (p *TDataServicePutDataResult) String() string {
 
 // Attributes:
 //  - UID
-//  - Cid
-type TDataServiceAddConversationArgs struct {
-  UID TKey `thrift:"uid,1" db:"uid" json:"uid"`
-  Cid int64 `thrift:"cid,2" db:"cid" json:"cid"`
-}
-
-func NewTDataServiceAddConversationArgs() *TDataServiceAddConversationArgs {
-  return &TDataServiceAddConversationArgs{}
-}
-
-
-func (p *TDataServiceAddConversationArgs) GetUID() TKey {
-  return p.UID
-}
-
-func (p *TDataServiceAddConversationArgs) GetCid() int64 {
-  return p.Cid
-}
-func (p *TDataServiceAddConversationArgs) Read(iprot thrift.TProtocol) error {
-  if _, err := iprot.ReadStructBegin(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
-  }
-
-
-  for {
-    _, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
-    if err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
-    }
-    if fieldTypeId == thrift.STOP { break; }
-    switch fieldId {
-    case 1:
-      if fieldTypeId == thrift.I64 {
-        if err := p.ReadField1(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    case 2:
-      if fieldTypeId == thrift.I64 {
-        if err := p.ReadField2(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    default:
-      if err := iprot.Skip(fieldTypeId); err != nil {
-        return err
-      }
-    }
-    if err := iprot.ReadFieldEnd(); err != nil {
-      return err
-    }
-  }
-  if err := iprot.ReadStructEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
-  }
-  return nil
-}
-
-func (p *TDataServiceAddConversationArgs)  ReadField1(iprot thrift.TProtocol) error {
-  if v, err := iprot.ReadI64(); err != nil {
-  return thrift.PrependError("error reading field 1: ", err)
-} else {
-  temp := TKey(v)
-  p.UID = temp
-}
-  return nil
-}
-
-func (p *TDataServiceAddConversationArgs)  ReadField2(iprot thrift.TProtocol) error {
-  if v, err := iprot.ReadI64(); err != nil {
-  return thrift.PrependError("error reading field 2: ", err)
-} else {
-  p.Cid = v
-}
-  return nil
-}
-
-func (p *TDataServiceAddConversationArgs) Write(oprot thrift.TProtocol) error {
-  if err := oprot.WriteStructBegin("addConversation_args"); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err) }
-  if p != nil {
-    if err := p.writeField1(oprot); err != nil { return err }
-    if err := p.writeField2(oprot); err != nil { return err }
-  }
-  if err := oprot.WriteFieldStop(); err != nil {
-    return thrift.PrependError("write field stop error: ", err) }
-  if err := oprot.WriteStructEnd(); err != nil {
-    return thrift.PrependError("write struct stop error: ", err) }
-  return nil
-}
-
-func (p *TDataServiceAddConversationArgs) writeField1(oprot thrift.TProtocol) (err error) {
-  if err := oprot.WriteFieldBegin("uid", thrift.I64, 1); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:uid: ", p), err) }
-  if err := oprot.WriteI64(int64(p.UID)); err != nil {
-  return thrift.PrependError(fmt.Sprintf("%T.uid (1) field write error: ", p), err) }
-  if err := oprot.WriteFieldEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field end error 1:uid: ", p), err) }
-  return err
-}
-
-func (p *TDataServiceAddConversationArgs) writeField2(oprot thrift.TProtocol) (err error) {
-  if err := oprot.WriteFieldBegin("cid", thrift.I64, 2); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field begin error 2:cid: ", p), err) }
-  if err := oprot.WriteI64(int64(p.Cid)); err != nil {
-  return thrift.PrependError(fmt.Sprintf("%T.cid (2) field write error: ", p), err) }
-  if err := oprot.WriteFieldEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field end error 2:cid: ", p), err) }
-  return err
-}
-
-func (p *TDataServiceAddConversationArgs) String() string {
-  if p == nil {
-    return "<nil>"
-  }
-  return fmt.Sprintf("TDataServiceAddConversationArgs(%+v)", *p)
-}
-
-// Attributes:
-//  - Success
-type TDataServiceAddConversationResult struct {
-  Success *TErrorCode `thrift:"success,0" db:"success" json:"success,omitempty"`
-}
-
-func NewTDataServiceAddConversationResult() *TDataServiceAddConversationResult {
-  return &TDataServiceAddConversationResult{}
-}
-
-var TDataServiceAddConversationResult_Success_DEFAULT TErrorCode
-func (p *TDataServiceAddConversationResult) GetSuccess() TErrorCode {
-  if !p.IsSetSuccess() {
-    return TDataServiceAddConversationResult_Success_DEFAULT
-  }
-return *p.Success
-}
-func (p *TDataServiceAddConversationResult) IsSetSuccess() bool {
-  return p.Success != nil
-}
-
-func (p *TDataServiceAddConversationResult) Read(iprot thrift.TProtocol) error {
-  if _, err := iprot.ReadStructBegin(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
-  }
-
-
-  for {
-    _, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
-    if err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
-    }
-    if fieldTypeId == thrift.STOP { break; }
-    switch fieldId {
-    case 0:
-      if fieldTypeId == thrift.I32 {
-        if err := p.ReadField0(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    default:
-      if err := iprot.Skip(fieldTypeId); err != nil {
-        return err
-      }
-    }
-    if err := iprot.ReadFieldEnd(); err != nil {
-      return err
-    }
-  }
-  if err := iprot.ReadStructEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
-  }
-  return nil
-}
-
-func (p *TDataServiceAddConversationResult)  ReadField0(iprot thrift.TProtocol) error {
-  if v, err := iprot.ReadI32(); err != nil {
-  return thrift.PrependError("error reading field 0: ", err)
-} else {
-  temp := TErrorCode(v)
-  p.Success = &temp
-}
-  return nil
-}
-
-func (p *TDataServiceAddConversationResult) Write(oprot thrift.TProtocol) error {
-  if err := oprot.WriteStructBegin("addConversation_result"); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err) }
-  if p != nil {
-    if err := p.writeField0(oprot); err != nil { return err }
-  }
-  if err := oprot.WriteFieldStop(); err != nil {
-    return thrift.PrependError("write field stop error: ", err) }
-  if err := oprot.WriteStructEnd(); err != nil {
-    return thrift.PrependError("write struct stop error: ", err) }
-  return nil
-}
-
-func (p *TDataServiceAddConversationResult) writeField0(oprot thrift.TProtocol) (err error) {
-  if p.IsSetSuccess() {
-    if err := oprot.WriteFieldBegin("success", thrift.I32, 0); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field begin error 0:success: ", p), err) }
-    if err := oprot.WriteI32(int32(*p.Success)); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T.success (0) field write error: ", p), err) }
-    if err := oprot.WriteFieldEnd(); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field end error 0:success: ", p), err) }
-  }
-  return err
-}
-
-func (p *TDataServiceAddConversationResult) String() string {
-  if p == nil {
-    return "<nil>"
-  }
-  return fmt.Sprintf("TDataServiceAddConversationResult(%+v)", *p)
-}
-
-// Attributes:
-//  - UID
-//  - Cid
-type TDataServiceDeleteConversationArgs struct {
-  UID TKey `thrift:"uid,1" db:"uid" json:"uid"`
-  Cid int64 `thrift:"cid,2" db:"cid" json:"cid"`
-}
-
-func NewTDataServiceDeleteConversationArgs() *TDataServiceDeleteConversationArgs {
-  return &TDataServiceDeleteConversationArgs{}
-}
-
-
-func (p *TDataServiceDeleteConversationArgs) GetUID() TKey {
-  return p.UID
-}
-
-func (p *TDataServiceDeleteConversationArgs) GetCid() int64 {
-  return p.Cid
-}
-func (p *TDataServiceDeleteConversationArgs) Read(iprot thrift.TProtocol) error {
-  if _, err := iprot.ReadStructBegin(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
-  }
-
-
-  for {
-    _, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
-    if err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
-    }
-    if fieldTypeId == thrift.STOP { break; }
-    switch fieldId {
-    case 1:
-      if fieldTypeId == thrift.I64 {
-        if err := p.ReadField1(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    case 2:
-      if fieldTypeId == thrift.I64 {
-        if err := p.ReadField2(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    default:
-      if err := iprot.Skip(fieldTypeId); err != nil {
-        return err
-      }
-    }
-    if err := iprot.ReadFieldEnd(); err != nil {
-      return err
-    }
-  }
-  if err := iprot.ReadStructEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
-  }
-  return nil
-}
-
-func (p *TDataServiceDeleteConversationArgs)  ReadField1(iprot thrift.TProtocol) error {
-  if v, err := iprot.ReadI64(); err != nil {
-  return thrift.PrependError("error reading field 1: ", err)
-} else {
-  temp := TKey(v)
-  p.UID = temp
-}
-  return nil
-}
-
-func (p *TDataServiceDeleteConversationArgs)  ReadField2(iprot thrift.TProtocol) error {
-  if v, err := iprot.ReadI64(); err != nil {
-  return thrift.PrependError("error reading field 2: ", err)
-} else {
-  p.Cid = v
-}
-  return nil
-}
-
-func (p *TDataServiceDeleteConversationArgs) Write(oprot thrift.TProtocol) error {
-  if err := oprot.WriteStructBegin("deleteConversation_args"); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err) }
-  if p != nil {
-    if err := p.writeField1(oprot); err != nil { return err }
-    if err := p.writeField2(oprot); err != nil { return err }
-  }
-  if err := oprot.WriteFieldStop(); err != nil {
-    return thrift.PrependError("write field stop error: ", err) }
-  if err := oprot.WriteStructEnd(); err != nil {
-    return thrift.PrependError("write struct stop error: ", err) }
-  return nil
-}
-
-func (p *TDataServiceDeleteConversationArgs) writeField1(oprot thrift.TProtocol) (err error) {
-  if err := oprot.WriteFieldBegin("uid", thrift.I64, 1); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:uid: ", p), err) }
-  if err := oprot.WriteI64(int64(p.UID)); err != nil {
-  return thrift.PrependError(fmt.Sprintf("%T.uid (1) field write error: ", p), err) }
-  if err := oprot.WriteFieldEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field end error 1:uid: ", p), err) }
-  return err
-}
-
-func (p *TDataServiceDeleteConversationArgs) writeField2(oprot thrift.TProtocol) (err error) {
-  if err := oprot.WriteFieldBegin("cid", thrift.I64, 2); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field begin error 2:cid: ", p), err) }
-  if err := oprot.WriteI64(int64(p.Cid)); err != nil {
-  return thrift.PrependError(fmt.Sprintf("%T.cid (2) field write error: ", p), err) }
-  if err := oprot.WriteFieldEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field end error 2:cid: ", p), err) }
-  return err
-}
-
-func (p *TDataServiceDeleteConversationArgs) String() string {
-  if p == nil {
-    return "<nil>"
-  }
-  return fmt.Sprintf("TDataServiceDeleteConversationArgs(%+v)", *p)
-}
-
-// Attributes:
-//  - Success
-type TDataServiceDeleteConversationResult struct {
-  Success *TErrorCode `thrift:"success,0" db:"success" json:"success,omitempty"`
-}
-
-func NewTDataServiceDeleteConversationResult() *TDataServiceDeleteConversationResult {
-  return &TDataServiceDeleteConversationResult{}
-}
-
-var TDataServiceDeleteConversationResult_Success_DEFAULT TErrorCode
-func (p *TDataServiceDeleteConversationResult) GetSuccess() TErrorCode {
-  if !p.IsSetSuccess() {
-    return TDataServiceDeleteConversationResult_Success_DEFAULT
-  }
-return *p.Success
-}
-func (p *TDataServiceDeleteConversationResult) IsSetSuccess() bool {
-  return p.Success != nil
-}
-
-func (p *TDataServiceDeleteConversationResult) Read(iprot thrift.TProtocol) error {
-  if _, err := iprot.ReadStructBegin(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
-  }
-
-
-  for {
-    _, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
-    if err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
-    }
-    if fieldTypeId == thrift.STOP { break; }
-    switch fieldId {
-    case 0:
-      if fieldTypeId == thrift.I32 {
-        if err := p.ReadField0(iprot); err != nil {
-          return err
-        }
-      } else {
-        if err := iprot.Skip(fieldTypeId); err != nil {
-          return err
-        }
-      }
-    default:
-      if err := iprot.Skip(fieldTypeId); err != nil {
-        return err
-      }
-    }
-    if err := iprot.ReadFieldEnd(); err != nil {
-      return err
-    }
-  }
-  if err := iprot.ReadStructEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
-  }
-  return nil
-}
-
-func (p *TDataServiceDeleteConversationResult)  ReadField0(iprot thrift.TProtocol) error {
-  if v, err := iprot.ReadI32(); err != nil {
-  return thrift.PrependError("error reading field 0: ", err)
-} else {
-  temp := TErrorCode(v)
-  p.Success = &temp
-}
-  return nil
-}
-
-func (p *TDataServiceDeleteConversationResult) Write(oprot thrift.TProtocol) error {
-  if err := oprot.WriteStructBegin("deleteConversation_result"); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err) }
-  if p != nil {
-    if err := p.writeField0(oprot); err != nil { return err }
-  }
-  if err := oprot.WriteFieldStop(); err != nil {
-    return thrift.PrependError("write field stop error: ", err) }
-  if err := oprot.WriteStructEnd(); err != nil {
-    return thrift.PrependError("write struct stop error: ", err) }
-  return nil
-}
-
-func (p *TDataServiceDeleteConversationResult) writeField0(oprot thrift.TProtocol) (err error) {
-  if p.IsSetSuccess() {
-    if err := oprot.WriteFieldBegin("success", thrift.I32, 0); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field begin error 0:success: ", p), err) }
-    if err := oprot.WriteI32(int32(*p.Success)); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T.success (0) field write error: ", p), err) }
-    if err := oprot.WriteFieldEnd(); err != nil {
-      return thrift.PrependError(fmt.Sprintf("%T write field end error 0:success: ", p), err) }
-  }
-  return err
-}
-
-func (p *TDataServiceDeleteConversationResult) String() string {
-  if p == nil {
-    return "<nil>"
-  }
-  return fmt.Sprintf("TDataServiceDeleteConversationResult(%+v)", *p)
-}
-
-// Attributes:
-//  - UID
 type TDataServiceDeleteUserArgs struct {
   UID TKey `thrift:"uid,1" db:"uid" json:"uid"`
 }
@@ -3537,8 +2945,8 @@ type TUserStoreServiceProcessor struct {
 }
 
 func NewTUserStoreServiceProcessor(handler TUserStoreService) *TUserStoreServiceProcessor {
-  self57 := &TUserStoreServiceProcessor{NewTDataServiceProcessor(handler)}
-  return self57
+  self49 := &TUserStoreServiceProcessor{NewTDataServiceProcessor(handler)}
+  return self49
 }
 
 

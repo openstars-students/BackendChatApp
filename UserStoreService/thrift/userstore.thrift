@@ -49,8 +49,8 @@ service TDataService{
     TErrorCode putData(1: TKey key, 2: TUserInfo data),
     //TErrorCode addFriend (1: TKey uid, 2: i64 friendid),
     //TErrorCode unFriend (1: TKey uid, 2: i64 friendid),
-    TErrorCode addConversation (1:TKey uid, 2: i64 cid),
-    TErrorCode deleteConversation (1:TKey uid, 2: i64 cid),
+    //TErrorCode addConversation (1:TKey uid, 2: i64 cid),
+    //TErrorCode deleteConversation (1:TKey uid, 2: i64 cid),
     //TErrorCode removeUser(1: TKey uid),
     TErrorCode deleteUser (1: TKey uid),
     

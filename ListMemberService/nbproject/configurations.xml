@@ -21,6 +21,8 @@
       <logicalFolder name="gen-cpp" displayName="gen-cpp" projectFiles="true">
         <itemPath>thrift/gen-cpp/TDataService.cpp</itemPath>
         <itemPath>thrift/gen-cpp/TDataService.h</itemPath>
+        <itemPath>thrift/gen-cpp/TDataServiceR.cpp</itemPath>
+        <itemPath>thrift/gen-cpp/TDataServiceR.h</itemPath>
         <itemPath>thrift/gen-cpp/TListMemberService.cpp</itemPath>
         <itemPath>thrift/gen-cpp/TListMemberService.h</itemPath>
         <itemPath>thrift/gen-cpp/listmemberservice_constants.cpp</itemPath>
@@ -44,6 +46,10 @@
     </logicalFolder>
     <itemPath>listmemberservice.properties</itemPath>
   </logicalFolder>
+  <sourceRootList>
+    <Elem>../ListMessageService/thrift/gen-cpp</Elem>
+    <Elem>thrift/gen-cpp</Elem>
+  </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="Debug" type="1">
@@ -100,8 +106,6 @@
       </item>
       <item path="inc/storagedef.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="platformprofileservice.properties" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="src/ServerApp.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/ServiceModel.cpp" ex="false" tool="1" flavor2="0">
@@ -111,6 +115,10 @@
       <item path="thrift/gen-cpp/TDataService.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="thrift/gen-cpp/TDataService.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="thrift/gen-cpp/TDataServiceR.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="thrift/gen-cpp/TDataServiceR.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="thrift/gen-cpp/TListMemberService.cpp"
             ex="false"
@@ -223,6 +231,10 @@
       </item>
       <item path="thrift/gen-cpp/TDataService.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="thrift/gen-cpp/TDataServiceR.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="thrift/gen-cpp/TDataServiceR.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="thrift/gen-cpp/TListMemberService.cpp"
             ex="false"
             tool="1"
@@ -334,6 +346,10 @@
       <item path="thrift/gen-cpp/TDataService.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="thrift/gen-cpp/TDataService.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="thrift/gen-cpp/TDataServiceR.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="thrift/gen-cpp/TDataServiceR.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="thrift/gen-cpp/TListMemberService.cpp"
             ex="false"

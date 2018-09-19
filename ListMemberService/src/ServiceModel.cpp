@@ -61,3 +61,52 @@ OpenStars::Platform::ListMemberService::TErrorCode::type ServiceModel::putData(O
         this->m_storage->visit(key, &visitor);
     }    
 }
+
+OpenStars::Platform::ListMemberService::TErrorCode::type ServiceModel::addMember(const OpenStars::Platform::ListMemberService::TKey cid, const int64_t uid)
+{
+    class addmember_visitor : public PersistentStorageType::data_visitor {
+    public:
+
+        addmember_visitor(int64_t _uid) : uid(_uid), err() {
+        }
+
+        virtual bool visit(const PersistentStorageType::TKey& key, PersistentStorageType::TValue& value) {
+            err=value.additem(uid);
+            return true;
+        }
+        int64_t uid;
+         OpenStars::Platform::ListMemberService::TErrorCode::type err;
+    };
+
+
+    if (this->m_storage) {
+        addmember_visitor visitor(uid);
+        this->m_storage->visit(cid, &visitor);
+        return visitor.err;
+    }    
+}
+
+OpenStars::Platform::ListMemberService::TErrorCode::type ServiceModel::removeMember(const OpenStars::Platform::ListMemberService::TKey cid, const int64_t uid)
+{
+    class removemember_visitor : public PersistentStorageType::data_visitor {
+    public:
+
+        removemember_visitor(int64_t _uid) : uid(_uid), err() {
+        }
+
+        virtual bool visit(const PersistentStorageType::TKey& key, PersistentStorageType::TValue& value) {
+            err=value.removeitem(uid);
+            return true;
+        }
+        int64_t uid;
+         OpenStars::Platform::ListMemberService::TErrorCode::type err;
+    };
+
+
+    if (this->m_storage) {
+        removemember_visitor visitor(uid);
+        this->m_storage->visit(cid, &visitor);
+        return visitor.err;
+    }
+    
+}

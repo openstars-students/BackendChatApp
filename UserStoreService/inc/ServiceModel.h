@@ -26,8 +26,8 @@ public:
   OpenStars::Platform::UserStore::TErrorCode::type putData( OpenStars::Platform::UserStore::TKey key, 
                 const OpenStars::Platform::UserStore::TUserInfo& data);
   OpenStars::Platform::UserStore::TErrorCode::type deleteUser( OpenStars::Platform::UserStore::TKey key);
-  OpenStars::Platform::UserStore::TErrorCode::type addConversation(const OpenStars::Platform::UserStore::TKey uid, const int64_t cid);
-  OpenStars::Platform::UserStore::TErrorCode::type deleteConversation(const OpenStars::Platform::UserStore::TKey uid, const int64_t cid);
+  //OpenStars::Platform::UserStore::TErrorCode::type addConversation(const OpenStars::Platform::UserStore::TKey uid, const int64_t cid);
+  //OpenStars::Platform::UserStore::TErrorCode::type deleteConversation(const OpenStars::Platform::UserStore::TKey uid, const int64_t cid);
 
 private:
     ServiceModel(const ServiceModel& orig);

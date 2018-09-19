@@ -37,6 +37,19 @@ public:
             return m_pmodel->putData(key, data);
         return OpenStars::Platform::ListMemberService::TErrorCode::EUnknown;
     }
+    
+    OpenStars::Platform::ListMemberService::TErrorCode::type addMember(const OpenStars::Platform::ListMemberService::TKey cid, const int64_t uid)
+    {
+        if (this->m_pmodel)
+            return m_pmodel->addMember(cid, uid);
+        return OpenStars::Platform::ListMemberService::TErrorCode::EUnknown;
+    }
+    OpenStars::Platform::ListMemberService::TErrorCode::type removeMember(const OpenStars::Platform::ListMemberService::TKey cid, const int64_t uid)
+    {
+        if (this->m_pmodel)
+            return m_pmodel->removeMember(cid, uid);
+        return OpenStars::Platform::ListMemberService::TErrorCode::EUnknown;
+    }
 
 };
 

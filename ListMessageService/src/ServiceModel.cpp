@@ -61,3 +61,52 @@ OpenStars::Platform::ListMessageService::TErrorCode::type ServiceModel::putData(
         this->m_storage->visit(key, &visitor);
     }    
 }
+
+OpenStars::Platform::ListMessageService::TErrorCode::type ServiceModel::addMessage(const OpenStars::Platform::ListMessageService::TKey cid, const int64_t mid)
+{
+    class addmessage_visitor : public PersistentStorageType::data_visitor {
+    public:
+
+        addmessage_visitor(int64_t _mid) : mid(_mid), err() {
+        }
+
+        virtual bool visit(const PersistentStorageType::TKey& key, PersistentStorageType::TValue& value) {
+            err=value.additem(mid);
+            return true;
+        }
+        int64_t mid;
+         OpenStars::Platform::ListMessageService::TErrorCode::type err;
+    };
+
+
+    if (this->m_storage) {
+        addmessage_visitor visitor(mid);
+        this->m_storage->visit(cid, &visitor);
+        return visitor.err;
+    }    
+}
+
+OpenStars::Platform::ListMessageService::TErrorCode::type ServiceModel::removeMessage(const OpenStars::Platform::ListMessageService::TKey cid, const int64_t mid)
+{
+    class removemessage_visitor : public PersistentStorageType::data_visitor {
+    public:
+
+        removemessage_visitor(int64_t _mid) : mid(_mid), err() {
+        }
+
+        virtual bool visit(const PersistentStorageType::TKey& key, PersistentStorageType::TValue& value) {
+            err=value.removeitem(mid);
+            return true;
+        }
+        int64_t mid;
+         OpenStars::Platform::ListMessageService::TErrorCode::type err;
+    };
+
+
+    if (this->m_storage) {
+        removemessage_visitor visitor(mid);
+        this->m_storage->visit(cid, &visitor);
+        return visitor.err;
+    }
+    
+}

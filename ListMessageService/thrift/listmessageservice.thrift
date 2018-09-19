@@ -13,11 +13,7 @@ enum TErrorCode{
 
 struct TValue{
     1: TKey uid
-    2: string username,
-    3: string displayName
-    4: map<string, bool> trustedEmails,
-    5: map<string, bool> trustedMobiles,
-    6: list<string> publicKeys, //for using with secp256k1
+     2: list<i64> listmid,
 
 }
 
@@ -36,7 +32,9 @@ service TDataServiceR{
 
 service TDataService{
     TDataResult getData(1: TKey key), 
-    TErrorCode putData(1: TKey key, 2: TValue data)
+    TErrorCode putData(1: TKey key, 2: TValue data),
+    TErrorCode addMessage(1: TKey key, 2: i64 mid),
+    TErrorCode removeMessage(1: TKey key, 2: i64 mid)
 }
 
 service TListMessageService extends TDataService{

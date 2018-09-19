@@ -46,7 +46,7 @@ namespace model {
                 return true;
             else return false;
         }
-        
+        /*
         OpenStars::Platform::UserStore::TErrorCode::type addConversation(const int64_t item) {
             OpenStars::Platform::UserStore::TErrorCode error;
             std::vector<int64_t>::iterator pos = std::lower_bound(data.listconversation.begin(), data.listconversation.end(), item);
@@ -71,7 +71,7 @@ namespace model {
             if(*pos!=item) return error.ENotFound;
             return error.EUnknown;
         }
-
+        */
 
     };
 

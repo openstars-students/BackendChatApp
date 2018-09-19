@@ -7,9 +7,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/shindo/Documents/student2018/services/UserStoreService/userstoreservice.properties</file>
-            <file>file:/home/shindo/Documents/student2018/services/UserStoreService/src/ServiceModel.cpp</file>
-            <file>file:/home/shindo/Documents/student2018/services/UserStoreService/inc/ServiceHandler.h</file>
+            <file>file:/home/shindo/Documents/student2018/BackendChatApp/UserStoreService/inc/ServiceHandler.h</file>
+            <file>file:/home/shindo/Documents/student2018/BackendChatApp/UserStoreService/src/ServerApp.cpp</file>
+            <file>file:/home/shindo/Documents/student2018/BackendChatApp/UserStoreService/thrift/userstore.thrift</file>
+            <file>file:/home/shindo/Documents/student2018/BackendChatApp/UserStoreService/inc/ServiceModel.h</file>
+            <file>file:/home/shindo/Documents/student2018/BackendChatApp/UserStoreService/inc/ModelData.h</file>
+            <file>file:/home/shindo/Documents/student2018/BackendChatApp/UserStoreService/userstoreservice.properties</file>
+            <file>file:/home/shindo/Documents/student2018/BackendChatApp/UserStoreService/src/ServiceModel.cpp</file>
+            <file>file:/home/shindo/Documents/student2018/BackendChatApp/UserStoreService/thrift/gen-cpp/TDataService.h</file>
         </group>
     </open-files>
 </project-private>

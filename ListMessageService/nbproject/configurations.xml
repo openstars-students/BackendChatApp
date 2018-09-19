@@ -100,8 +100,6 @@
       </item>
       <item path="inc/storagedef.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="platformprofileservice.properties" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="src/ServerApp.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/ServiceModel.cpp" ex="false" tool="1" flavor2="0">

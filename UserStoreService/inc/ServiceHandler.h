@@ -63,7 +63,7 @@ public:
             return m_pmodel->deleteUser(key);
         return OpenStars::Platform::UserStore::TErrorCode::EUnknown;
     }
-    
+    /*
     virtual OpenStars::Platform::UserStore::TErrorCode::type addConversation(const OpenStars::Platform::UserStore::TKey uid, const int64_t cid)
     {
         if (this->m_pmodel)
@@ -76,7 +76,7 @@ public:
         if (this->m_pmodel)
             return m_pmodel->deleteConversation(uid,cid);
         return OpenStars::Platform::UserStore::TErrorCode::EUnknown;
-    }
+    }*/
 
 };
 

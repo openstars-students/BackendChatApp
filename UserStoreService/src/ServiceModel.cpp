@@ -181,7 +181,7 @@ OpenStars::Platform::UserStore::TErrorCode::type ServiceModel::deleteUser(OpenSt
         return visitor.err;
     }    
 }
-
+/*
 OpenStars::Platform::UserStore::TErrorCode::type ServiceModel::addConversation(const OpenStars::Platform::UserStore::TKey uid, const int64_t cid)
 {
     class addconversation_visitor : public PersistentStorageType::data_visitor {
@@ -228,4 +228,4 @@ OpenStars::Platform::UserStore::TErrorCode::type ServiceModel::deleteConversatio
         return visitor.err;
     }    
 }
-
+*/

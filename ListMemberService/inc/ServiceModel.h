@@ -22,7 +22,11 @@ public:
 
   OpenStars::Platform::ListMemberService::TErrorCode::type putData( OpenStars::Platform::ListMemberService::TKey key, 
                 const OpenStars::Platform::ListMemberService::TValue& data);
-   
+  
+  OpenStars::Platform::ListMemberService::TErrorCode::type addMember(const OpenStars::Platform::ListMemberService::TKey cid, const int64_t uid);
+
+  OpenStars::Platform::ListMemberService::TErrorCode::type removeMember(const OpenStars::Platform::ListMemberService::TKey cid, const int64_t uid);
+
 private:
     ServiceModel(const ServiceModel& orig);
     Poco::SharedPtr<PersistentStorageType> m_storage;

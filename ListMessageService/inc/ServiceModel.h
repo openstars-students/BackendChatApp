@@ -23,6 +23,10 @@ public:
   OpenStars::Platform::ListMessageService::TErrorCode::type putData( OpenStars::Platform::ListMessageService::TKey key, 
                 const OpenStars::Platform::ListMessageService::TValue& data);
    
+  OpenStars::Platform::ListMessageService::TErrorCode::type addMessage(const OpenStars::Platform::ListMessageService::TKey cid, const int64_t mid);
+      
+  OpenStars::Platform::ListMessageService::TErrorCode::type removeMessage(const OpenStars::Platform::ListMessageService::TKey cid, const int64_t mid);
+
 private:
     ServiceModel(const ServiceModel& orig);
     Poco::SharedPtr<PersistentStorageType> m_storage;
