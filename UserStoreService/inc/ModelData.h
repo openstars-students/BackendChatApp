@@ -35,8 +35,8 @@ namespace model {
             //OpenStars::Platform::MessageStore::TErrorCode err;
             return error.EGood;
         }
-        bool hasUser(std::string uname){
-            if(this->data.username==uname)
+        bool hasUser(std::string pkey){
+            if(this->data.publickey==pkey)
                 return true;
             else return false;
         }

@@ -74,7 +74,7 @@ void ServiceModel::getListUsers(OpenStars::Platform::UserStore::TListDataUsers& 
          
 }
 
-OpenStars::Platform::UserStore::TErrorCode::type  ServiceModel::hasUser(const string& username,const std::vector<OpenStars::Platform::UserStore::TKey>& keys)
+bool ServiceModel::hasUser(const string& username,const int64_t keys)
     {
         class hasUser_visitor : public PersistentStorageType::data_visitor {
     public:
@@ -88,19 +88,19 @@ OpenStars::Platform::UserStore::TErrorCode::type  ServiceModel::hasUser(const st
         std::string username;
         bool check;
     };
-    OpenStars::Platform::UserStore::TErrorCode err;
+    //OpenStars::Platform::UserStore::TErrorCode err;
     if (this->m_storage) {
         hasUser_visitor visitor(username);
-        for(vector<OpenStars::Platform::UserStore::TKey>::const_iterator pos = keys.begin(); pos != keys.end(); pos++) {
-            this->m_storage->visit(*pos, &visitor);
+        for(OpenStars::Platform::UserStore::TKey pos = 1; pos <=keys; pos++) {
+            this->m_storage->visit(pos, &visitor);
             if(visitor.check)
-                return err.EDataExisted;
+                return true;
             //cout<<"return: "<<_return.listuser[pos]<<endl;
         }
-        return err.EGood;
+        return false;
     }
     else{
-        return err.EUnknown;
+        return false;
     }
 }
 

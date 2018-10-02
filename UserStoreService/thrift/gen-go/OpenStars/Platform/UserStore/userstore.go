@@ -1146,9 +1146,9 @@ type TDataService interface {
   //  - Keys
   GetListUsers(ctx context.Context, keys []TKey) (r *TListDataUsers, err error)
   // Parameters:
-  //  - Username
+  //  - Pubkey
   //  - Keys
-  HasUser(ctx context.Context, username string, keys []TKey) (r TErrorCode, err error)
+  HasUser(ctx context.Context, pubkey string, keys int64) (r bool, err error)
   // Parameters:
   //  - Publickey
   //  - Lastkey
@@ -1211,11 +1211,11 @@ func (p *TDataServiceClient) GetListUsers(ctx context.Context, keys []TKey) (r *
 }
 
 // Parameters:
-//  - Username
+//  - Pubkey
 //  - Keys
-func (p *TDataServiceClient) HasUser(ctx context.Context, username string, keys []TKey) (r TErrorCode, err error) {
+func (p *TDataServiceClient) HasUser(ctx context.Context, pubkey string, keys int64) (r bool, err error) {
   var _args13 TDataServiceHasUserArgs
-  _args13.Username = username
+  _args13.Pubkey = pubkey
   _args13.Keys = keys
   var _result14 TDataServiceHasUserResult
   if err = p.c.Call(ctx, "hasUser", &_args13, &_result14); err != nil {
@@ -1425,9 +1425,9 @@ func (p *tDataServiceProcessorHasUser) Process(ctx context.Context, seqId int32,
 
   iprot.ReadMessageEnd()
   result := TDataServiceHasUserResult{}
-var retval TErrorCode
+var retval bool
   var err2 error
-  if retval, err2 = p.handler.HasUser(ctx, args.Username, args.Keys); err2 != nil {
+  if retval, err2 = p.handler.HasUser(ctx, args.Pubkey, args.Keys); err2 != nil {
     x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing hasUser: " + err2.Error())
     oprot.WriteMessageBegin("hasUser", thrift.EXCEPTION, seqId)
     x.Write(oprot)
@@ -2008,11 +2008,11 @@ func (p *TDataServiceGetListUsersResult) String() string {
 }
 
 // Attributes:
-//  - Username
+//  - Pubkey
 //  - Keys
 type TDataServiceHasUserArgs struct {
-  Username string `thrift:"username,1" db:"username" json:"username"`
-  Keys []TKey `thrift:"keys,2" db:"keys" json:"keys"`
+  Pubkey string `thrift:"pubkey,1" db:"pubkey" json:"pubkey"`
+  Keys int64 `thrift:"keys,2" db:"keys" json:"keys"`
 }
 
 func NewTDataServiceHasUserArgs() *TDataServiceHasUserArgs {
@@ -2020,11 +2020,11 @@ func NewTDataServiceHasUserArgs() *TDataServiceHasUserArgs {
 }
 
 
-func (p *TDataServiceHasUserArgs) GetUsername() string {
-  return p.Username
+func (p *TDataServiceHasUserArgs) GetPubkey() string {
+  return p.Pubkey
 }
 
-func (p *TDataServiceHasUserArgs) GetKeys() []TKey {
+func (p *TDataServiceHasUserArgs) GetKeys() int64 {
   return p.Keys
 }
 func (p *TDataServiceHasUserArgs) Read(iprot thrift.TProtocol) error {
@@ -2051,7 +2051,7 @@ func (p *TDataServiceHasUserArgs) Read(iprot thrift.TProtocol) error {
         }
       }
     case 2:
-      if fieldTypeId == thrift.LIST {
+      if fieldTypeId == thrift.I64 {
         if err := p.ReadField2(iprot); err != nil {
           return err
         }
@@ -2079,31 +2079,17 @@ func (p *TDataServiceHasUserArgs)  ReadField1(iprot thrift.TProtocol) error {
   if v, err := iprot.ReadString(); err != nil {
   return thrift.PrependError("error reading field 1: ", err)
 } else {
-  p.Username = v
+  p.Pubkey = v
 }
   return nil
 }
 
 func (p *TDataServiceHasUserArgs)  ReadField2(iprot thrift.TProtocol) error {
-  _, size, err := iprot.ReadListBegin()
-  if err != nil {
-    return thrift.PrependError("error reading list begin: ", err)
-  }
-  tSlice := make([]TKey, 0, size)
-  p.Keys =  tSlice
-  for i := 0; i < size; i ++ {
-var _elem24 TKey
-    if v, err := iprot.ReadI64(); err != nil {
-    return thrift.PrependError("error reading field 0: ", err)
+  if v, err := iprot.ReadI64(); err != nil {
+  return thrift.PrependError("error reading field 2: ", err)
 } else {
-    temp := TKey(v)
-    _elem24 = temp
+  p.Keys = v
 }
-    p.Keys = append(p.Keys, _elem24)
-  }
-  if err := iprot.ReadListEnd(); err != nil {
-    return thrift.PrependError("error reading list end: ", err)
-  }
   return nil
 }
 
@@ -2122,28 +2108,20 @@ func (p *TDataServiceHasUserArgs) Write(oprot thrift.TProtocol) error {
 }
 
 func (p *TDataServiceHasUserArgs) writeField1(oprot thrift.TProtocol) (err error) {
-  if err := oprot.WriteFieldBegin("username", thrift.STRING, 1); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:username: ", p), err) }
-  if err := oprot.WriteString(string(p.Username)); err != nil {
-  return thrift.PrependError(fmt.Sprintf("%T.username (1) field write error: ", p), err) }
+  if err := oprot.WriteFieldBegin("pubkey", thrift.STRING, 1); err != nil {
+    return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:pubkey: ", p), err) }
+  if err := oprot.WriteString(string(p.Pubkey)); err != nil {
+  return thrift.PrependError(fmt.Sprintf("%T.pubkey (1) field write error: ", p), err) }
   if err := oprot.WriteFieldEnd(); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T write field end error 1:username: ", p), err) }
+    return thrift.PrependError(fmt.Sprintf("%T write field end error 1:pubkey: ", p), err) }
   return err
 }
 
 func (p *TDataServiceHasUserArgs) writeField2(oprot thrift.TProtocol) (err error) {
-  if err := oprot.WriteFieldBegin("keys", thrift.LIST, 2); err != nil {
+  if err := oprot.WriteFieldBegin("keys", thrift.I64, 2); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T write field begin error 2:keys: ", p), err) }
-  if err := oprot.WriteListBegin(thrift.I64, len(p.Keys)); err != nil {
-    return thrift.PrependError("error writing list begin: ", err)
-  }
-  for _, v := range p.Keys {
-    if err := oprot.WriteI64(int64(v)); err != nil {
-    return thrift.PrependError(fmt.Sprintf("%T. (0) field write error: ", p), err) }
-  }
-  if err := oprot.WriteListEnd(); err != nil {
-    return thrift.PrependError("error writing list end: ", err)
-  }
+  if err := oprot.WriteI64(int64(p.Keys)); err != nil {
+  return thrift.PrependError(fmt.Sprintf("%T.keys (2) field write error: ", p), err) }
   if err := oprot.WriteFieldEnd(); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T write field end error 2:keys: ", p), err) }
   return err
@@ -2159,15 +2137,15 @@ func (p *TDataServiceHasUserArgs) String() string {
 // Attributes:
 //  - Success
 type TDataServiceHasUserResult struct {
-  Success *TErrorCode `thrift:"success,0" db:"success" json:"success,omitempty"`
+  Success *bool `thrift:"success,0" db:"success" json:"success,omitempty"`
 }
 
 func NewTDataServiceHasUserResult() *TDataServiceHasUserResult {
   return &TDataServiceHasUserResult{}
 }
 
-var TDataServiceHasUserResult_Success_DEFAULT TErrorCode
-func (p *TDataServiceHasUserResult) GetSuccess() TErrorCode {
+var TDataServiceHasUserResult_Success_DEFAULT bool
+func (p *TDataServiceHasUserResult) GetSuccess() bool {
   if !p.IsSetSuccess() {
     return TDataServiceHasUserResult_Success_DEFAULT
   }
@@ -2191,7 +2169,7 @@ func (p *TDataServiceHasUserResult) Read(iprot thrift.TProtocol) error {
     if fieldTypeId == thrift.STOP { break; }
     switch fieldId {
     case 0:
-      if fieldTypeId == thrift.I32 {
+      if fieldTypeId == thrift.BOOL {
         if err := p.ReadField0(iprot); err != nil {
           return err
         }
@@ -2216,11 +2194,10 @@ func (p *TDataServiceHasUserResult) Read(iprot thrift.TProtocol) error {
 }
 
 func (p *TDataServiceHasUserResult)  ReadField0(iprot thrift.TProtocol) error {
-  if v, err := iprot.ReadI32(); err != nil {
+  if v, err := iprot.ReadBool(); err != nil {
   return thrift.PrependError("error reading field 0: ", err)
 } else {
-  temp := TErrorCode(v)
-  p.Success = &temp
+  p.Success = &v
 }
   return nil
 }
@@ -2240,9 +2217,9 @@ func (p *TDataServiceHasUserResult) Write(oprot thrift.TProtocol) error {
 
 func (p *TDataServiceHasUserResult) writeField0(oprot thrift.TProtocol) (err error) {
   if p.IsSetSuccess() {
-    if err := oprot.WriteFieldBegin("success", thrift.I32, 0); err != nil {
+    if err := oprot.WriteFieldBegin("success", thrift.BOOL, 0); err != nil {
       return thrift.PrependError(fmt.Sprintf("%T write field begin error 0:success: ", p), err) }
-    if err := oprot.WriteI32(int32(*p.Success)); err != nil {
+    if err := oprot.WriteBool(bool(*p.Success)); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T.success (0) field write error: ", p), err) }
     if err := oprot.WriteFieldEnd(); err != nil {
       return thrift.PrependError(fmt.Sprintf("%T write field end error 0:success: ", p), err) }
@@ -2945,8 +2922,8 @@ type TUserStoreServiceProcessor struct {
 }
 
 func NewTUserStoreServiceProcessor(handler TUserStoreService) *TUserStoreServiceProcessor {
-  self49 := &TUserStoreServiceProcessor{NewTDataServiceProcessor(handler)}
-  return self49
+  self43 := &TUserStoreServiceProcessor{NewTDataServiceProcessor(handler)}
+  return self43
 }
 
 

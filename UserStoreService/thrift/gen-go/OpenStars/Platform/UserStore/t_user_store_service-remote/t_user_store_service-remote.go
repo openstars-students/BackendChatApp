@@ -24,7 +24,7 @@ func Usage() {
   fmt.Fprintln(os.Stderr, "\nFunctions:")
   fmt.Fprintln(os.Stderr, "  TDataResult getData(TKey key)")
   fmt.Fprintln(os.Stderr, "  TListDataUsers getListUsers( keys)")
-  fmt.Fprintln(os.Stderr, "  TErrorCode hasUser(string username,  keys)")
+  fmt.Fprintln(os.Stderr, "  bool hasUser(string pubkey, i64 keys)")
   fmt.Fprintln(os.Stderr, "  TKey getIDByPublicKey(string publickey, i64 lastkey)")
   fmt.Fprintln(os.Stderr, "  TErrorCode putData(TKey key, TUserInfo data)")
   fmt.Fprintln(os.Stderr, "  TErrorCode deleteUser(TKey uid)")
@@ -130,8 +130,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "GetData requires 1 args")
       flag.Usage()
     }
-    argvalue0, err50 := (strconv.ParseInt(flag.Arg(1), 10, 64))
-    if err50 != nil {
+    argvalue0, err44 := (strconv.ParseInt(flag.Arg(1), 10, 64))
+    if err44 != nil {
       Usage()
       return
     }
@@ -144,19 +144,19 @@ func main() {
       fmt.Fprintln(os.Stderr, "GetListUsers requires 1 args")
       flag.Usage()
     }
-    arg51 := flag.Arg(1)
-    mbTrans52 := thrift.NewTMemoryBufferLen(len(arg51))
-    defer mbTrans52.Close()
-    _, err53 := mbTrans52.WriteString(arg51)
-    if err53 != nil { 
+    arg45 := flag.Arg(1)
+    mbTrans46 := thrift.NewTMemoryBufferLen(len(arg45))
+    defer mbTrans46.Close()
+    _, err47 := mbTrans46.WriteString(arg45)
+    if err47 != nil { 
       Usage()
       return
     }
-    factory54 := thrift.NewTSimpleJSONProtocolFactory()
-    jsProt55 := factory54.GetProtocol(mbTrans52)
+    factory48 := thrift.NewTSimpleJSONProtocolFactory()
+    jsProt49 := factory48.GetProtocol(mbTrans46)
     containerStruct0 := UserStore.NewTUserStoreServiceGetListUsersArgs()
-    err56 := containerStruct0.ReadField1(jsProt55)
-    if err56 != nil {
+    err50 := containerStruct0.ReadField1(jsProt49)
+    if err50 != nil {
       Usage()
       return
     }
@@ -172,23 +172,11 @@ func main() {
     }
     argvalue0 := flag.Arg(1)
     value0 := argvalue0
-    arg58 := flag.Arg(2)
-    mbTrans59 := thrift.NewTMemoryBufferLen(len(arg58))
-    defer mbTrans59.Close()
-    _, err60 := mbTrans59.WriteString(arg58)
-    if err60 != nil { 
+    argvalue1, err52 := (strconv.ParseInt(flag.Arg(2), 10, 64))
+    if err52 != nil {
       Usage()
       return
     }
-    factory61 := thrift.NewTSimpleJSONProtocolFactory()
-    jsProt62 := factory61.GetProtocol(mbTrans59)
-    containerStruct1 := UserStore.NewTUserStoreServiceHasUserArgs()
-    err63 := containerStruct1.ReadField2(jsProt62)
-    if err63 != nil {
-      Usage()
-      return
-    }
-    argvalue1 := containerStruct1.Keys
     value1 := argvalue1
     fmt.Print(client.HasUser(context.Background(), value0, value1))
     fmt.Print("\n")
@@ -200,8 +188,8 @@ func main() {
     }
     argvalue0 := flag.Arg(1)
     value0 := argvalue0
-    argvalue1, err65 := (strconv.ParseInt(flag.Arg(2), 10, 64))
-    if err65 != nil {
+    argvalue1, err54 := (strconv.ParseInt(flag.Arg(2), 10, 64))
+    if err54 != nil {
       Usage()
       return
     }
@@ -214,25 +202,25 @@ func main() {
       fmt.Fprintln(os.Stderr, "PutData requires 2 args")
       flag.Usage()
     }
-    argvalue0, err66 := (strconv.ParseInt(flag.Arg(1), 10, 64))
-    if err66 != nil {
+    argvalue0, err55 := (strconv.ParseInt(flag.Arg(1), 10, 64))
+    if err55 != nil {
       Usage()
       return
     }
     value0 := UserStore.TKey(argvalue0)
-    arg67 := flag.Arg(2)
-    mbTrans68 := thrift.NewTMemoryBufferLen(len(arg67))
-    defer mbTrans68.Close()
-    _, err69 := mbTrans68.WriteString(arg67)
-    if err69 != nil {
+    arg56 := flag.Arg(2)
+    mbTrans57 := thrift.NewTMemoryBufferLen(len(arg56))
+    defer mbTrans57.Close()
+    _, err58 := mbTrans57.WriteString(arg56)
+    if err58 != nil {
       Usage()
       return
     }
-    factory70 := thrift.NewTSimpleJSONProtocolFactory()
-    jsProt71 := factory70.GetProtocol(mbTrans68)
+    factory59 := thrift.NewTSimpleJSONProtocolFactory()
+    jsProt60 := factory59.GetProtocol(mbTrans57)
     argvalue1 := UserStore.NewTUserInfo()
-    err72 := argvalue1.Read(jsProt71)
-    if err72 != nil {
+    err61 := argvalue1.Read(jsProt60)
+    if err61 != nil {
       Usage()
       return
     }
@@ -245,8 +233,8 @@ func main() {
       fmt.Fprintln(os.Stderr, "DeleteUser requires 1 args")
       flag.Usage()
     }
-    argvalue0, err73 := (strconv.ParseInt(flag.Arg(1), 10, 64))
-    if err73 != nil {
+    argvalue0, err62 := (strconv.ParseInt(flag.Arg(1), 10, 64))
+    if err62 != nil {
       Usage()
       return
     }

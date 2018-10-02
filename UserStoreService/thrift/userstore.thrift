@@ -43,7 +43,7 @@ service TDataServiceR{
 service TDataService{
     TDataResult getData(1: TKey key), 
     TListDataUsers getListUsers(1: list<TKey> keys),
-    TErrorCode hasUser (1: string username, 2: list<TKey> keys),
+    bool hasUser (1: string pubkey, 2: i64 keys),
     TKey getIDByPublicKey (1: string publickey, 2: i64 lastkey),
 
     TErrorCode putData(1: TKey key, 2: TUserInfo data),

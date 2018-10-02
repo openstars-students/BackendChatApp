@@ -438,27 +438,15 @@ uint32_t TDataService_hasUser_args::read(::apache::thrift::protocol::TProtocol* 
     {
       case 1:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->username);
-          this->__isset.username = true;
+          xfer += iprot->readString(this->pubkey);
+          this->__isset.pubkey = true;
         } else {
           xfer += iprot->skip(ftype);
         }
         break;
       case 2:
-        if (ftype == ::apache::thrift::protocol::T_LIST) {
-          {
-            this->keys.clear();
-            uint32_t _size35;
-            ::apache::thrift::protocol::TType _etype38;
-            xfer += iprot->readListBegin(_etype38, _size35);
-            this->keys.resize(_size35);
-            uint32_t _i39;
-            for (_i39 = 0; _i39 < _size35; ++_i39)
-            {
-              xfer += iprot->readI64(this->keys[_i39]);
-            }
-            xfer += iprot->readListEnd();
-          }
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->keys);
           this->__isset.keys = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -481,20 +469,12 @@ uint32_t TDataService_hasUser_args::write(::apache::thrift::protocol::TProtocol*
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("TDataService_hasUser_args");
 
-  xfer += oprot->writeFieldBegin("username", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString(this->username);
+  xfer += oprot->writeFieldBegin("pubkey", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->pubkey);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("keys", ::apache::thrift::protocol::T_LIST, 2);
-  {
-    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_I64, static_cast<uint32_t>(this->keys.size()));
-    std::vector<TKey> ::const_iterator _iter40;
-    for (_iter40 = this->keys.begin(); _iter40 != this->keys.end(); ++_iter40)
-    {
-      xfer += oprot->writeI64((*_iter40));
-    }
-    xfer += oprot->writeListEnd();
-  }
+  xfer += oprot->writeFieldBegin("keys", ::apache::thrift::protocol::T_I64, 2);
+  xfer += oprot->writeI64(this->keys);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -512,20 +492,12 @@ uint32_t TDataService_hasUser_pargs::write(::apache::thrift::protocol::TProtocol
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("TDataService_hasUser_pargs");
 
-  xfer += oprot->writeFieldBegin("username", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString((*(this->username)));
+  xfer += oprot->writeFieldBegin("pubkey", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->pubkey)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("keys", ::apache::thrift::protocol::T_LIST, 2);
-  {
-    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_I64, static_cast<uint32_t>((*(this->keys)).size()));
-    std::vector<TKey> ::const_iterator _iter41;
-    for (_iter41 = (*(this->keys)).begin(); _iter41 != (*(this->keys)).end(); ++_iter41)
-    {
-      xfer += oprot->writeI64((*_iter41));
-    }
-    xfer += oprot->writeListEnd();
-  }
+  xfer += oprot->writeFieldBegin("keys", ::apache::thrift::protocol::T_I64, 2);
+  xfer += oprot->writeI64((*(this->keys)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -560,10 +532,8 @@ uint32_t TDataService_hasUser_result::read(::apache::thrift::protocol::TProtocol
     switch (fid)
     {
       case 0:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          int32_t ecast42;
-          xfer += iprot->readI32(ecast42);
-          this->success = (TErrorCode::type)ecast42;
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->success);
           this->__isset.success = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -588,8 +558,8 @@ uint32_t TDataService_hasUser_result::write(::apache::thrift::protocol::TProtoco
   xfer += oprot->writeStructBegin("TDataService_hasUser_result");
 
   if (this->__isset.success) {
-    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I32, 0);
-    xfer += oprot->writeI32((int32_t)this->success);
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_BOOL, 0);
+    xfer += oprot->writeBool(this->success);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -624,10 +594,8 @@ uint32_t TDataService_hasUser_presult::read(::apache::thrift::protocol::TProtoco
     switch (fid)
     {
       case 0:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          int32_t ecast43;
-          xfer += iprot->readI32(ecast43);
-          (*(this->success)) = (TErrorCode::type)ecast43;
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool((*(this->success)));
           this->__isset.success = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -971,9 +939,9 @@ uint32_t TDataService_putData_result::read(::apache::thrift::protocol::TProtocol
     {
       case 0:
         if (ftype == ::apache::thrift::protocol::T_I32) {
-          int32_t ecast44;
-          xfer += iprot->readI32(ecast44);
-          this->success = (TErrorCode::type)ecast44;
+          int32_t ecast35;
+          xfer += iprot->readI32(ecast35);
+          this->success = (TErrorCode::type)ecast35;
           this->__isset.success = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -1035,9 +1003,9 @@ uint32_t TDataService_putData_presult::read(::apache::thrift::protocol::TProtoco
     {
       case 0:
         if (ftype == ::apache::thrift::protocol::T_I32) {
-          int32_t ecast45;
-          xfer += iprot->readI32(ecast45);
-          (*(this->success)) = (TErrorCode::type)ecast45;
+          int32_t ecast36;
+          xfer += iprot->readI32(ecast36);
+          (*(this->success)) = (TErrorCode::type)ecast36;
           this->__isset.success = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -1162,9 +1130,9 @@ uint32_t TDataService_deleteUser_result::read(::apache::thrift::protocol::TProto
     {
       case 0:
         if (ftype == ::apache::thrift::protocol::T_I32) {
-          int32_t ecast46;
-          xfer += iprot->readI32(ecast46);
-          this->success = (TErrorCode::type)ecast46;
+          int32_t ecast37;
+          xfer += iprot->readI32(ecast37);
+          this->success = (TErrorCode::type)ecast37;
           this->__isset.success = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -1226,9 +1194,9 @@ uint32_t TDataService_deleteUser_presult::read(::apache::thrift::protocol::TProt
     {
       case 0:
         if (ftype == ::apache::thrift::protocol::T_I32) {
-          int32_t ecast47;
-          xfer += iprot->readI32(ecast47);
-          (*(this->success)) = (TErrorCode::type)ecast47;
+          int32_t ecast38;
+          xfer += iprot->readI32(ecast38);
+          (*(this->success)) = (TErrorCode::type)ecast38;
           this->__isset.success = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -1362,19 +1330,19 @@ void TDataServiceClient::recv_getListUsers(TListDataUsers& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "getListUsers failed: unknown result");
 }
 
-TErrorCode::type TDataServiceClient::hasUser(const std::string& username, const std::vector<TKey> & keys)
+bool TDataServiceClient::hasUser(const std::string& pubkey, const int64_t keys)
 {
-  send_hasUser(username, keys);
+  send_hasUser(pubkey, keys);
   return recv_hasUser();
 }
 
-void TDataServiceClient::send_hasUser(const std::string& username, const std::vector<TKey> & keys)
+void TDataServiceClient::send_hasUser(const std::string& pubkey, const int64_t keys)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("hasUser", ::apache::thrift::protocol::T_CALL, cseqid);
 
   TDataService_hasUser_pargs args;
-  args.username = &username;
+  args.pubkey = &pubkey;
   args.keys = &keys;
   args.write(oprot_);
 
@@ -1383,7 +1351,7 @@ void TDataServiceClient::send_hasUser(const std::string& username, const std::ve
   oprot_->getTransport()->flush();
 }
 
-TErrorCode::type TDataServiceClient::recv_hasUser()
+bool TDataServiceClient::recv_hasUser()
 {
 
   int32_t rseqid = 0;
@@ -1408,7 +1376,7 @@ TErrorCode::type TDataServiceClient::recv_hasUser()
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  TErrorCode::type _return;
+  bool _return;
   TDataService_hasUser_presult result;
   result.success = &_return;
   result.read(iprot_);
@@ -1747,7 +1715,7 @@ void TDataServiceProcessor::process_hasUser(int32_t seqid, ::apache::thrift::pro
 
   TDataService_hasUser_result result;
   try {
-    result.success = iface_->hasUser(args.username, args.keys);
+    result.success = iface_->hasUser(args.pubkey, args.keys);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -2115,20 +2083,20 @@ void TDataServiceConcurrentClient::recv_getListUsers(TListDataUsers& _return, co
   } // end while(true)
 }
 
-TErrorCode::type TDataServiceConcurrentClient::hasUser(const std::string& username, const std::vector<TKey> & keys)
+bool TDataServiceConcurrentClient::hasUser(const std::string& pubkey, const int64_t keys)
 {
-  int32_t seqid = send_hasUser(username, keys);
+  int32_t seqid = send_hasUser(pubkey, keys);
   return recv_hasUser(seqid);
 }
 
-int32_t TDataServiceConcurrentClient::send_hasUser(const std::string& username, const std::vector<TKey> & keys)
+int32_t TDataServiceConcurrentClient::send_hasUser(const std::string& pubkey, const int64_t keys)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("hasUser", ::apache::thrift::protocol::T_CALL, cseqid);
 
   TDataService_hasUser_pargs args;
-  args.username = &username;
+  args.pubkey = &pubkey;
   args.keys = &keys;
   args.write(oprot_);
 
@@ -2140,7 +2108,7 @@ int32_t TDataServiceConcurrentClient::send_hasUser(const std::string& username, 
   return cseqid;
 }
 
-TErrorCode::type TDataServiceConcurrentClient::recv_hasUser(const int32_t seqid)
+bool TDataServiceConcurrentClient::recv_hasUser(const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -2178,7 +2146,7 @@ TErrorCode::type TDataServiceConcurrentClient::recv_hasUser(const int32_t seqid)
         using ::apache::thrift::protocol::TProtocolException;
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
-      TErrorCode::type _return;
+      bool _return;
       TDataService_hasUser_presult result;
       result.success = &_return;
       result.read(iprot_);

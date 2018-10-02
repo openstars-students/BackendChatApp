@@ -35,7 +35,7 @@ public:
         if (this->m_pmodel)
             m_pmodel->getListUsers(_return, keys);
     }
-    virtual OpenStars::Platform::UserStore::TErrorCode::type hasUser(const std::string& username,const std::vector<OpenStars::Platform::UserStore::TKey>& keys)
+    virtual bool hasUser(const std::string& username,const int64_t keys)
     {
         if (this->m_pmodel)
             return m_pmodel->hasUser(username,keys);

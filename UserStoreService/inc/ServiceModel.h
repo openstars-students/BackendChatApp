@@ -20,7 +20,7 @@ public:
 public:
   void getData( OpenStars::Platform::UserStore::TDataResult& _return, const OpenStars::Platform::UserStore ::TKey key);
   void getListUsers(OpenStars::Platform::UserStore::TListDataUsers& _return, const std::vector<OpenStars::Platform::UserStore::TKey>& keys);
-  OpenStars::Platform::UserStore::TErrorCode::type hasUser(const std::string& username, const std::vector<OpenStars::Platform::UserStore::TKey>& keys);
+  bool hasUser(const std::string& username, const int64_t keys);
   OpenStars::Platform::UserStore::TKey getIDByPublicKey(const std::string& publickey, const int64_t lastkey);
   
   OpenStars::Platform::UserStore::TErrorCode::type putData( OpenStars::Platform::UserStore::TKey key, 

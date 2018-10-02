@@ -23,7 +23,7 @@ class TDataServiceIf {
   virtual ~TDataServiceIf() {}
   virtual void getData(TDataResult& _return, const TKey key) = 0;
   virtual void getListUsers(TListDataUsers& _return, const std::vector<TKey> & keys) = 0;
-  virtual TErrorCode::type hasUser(const std::string& username, const std::vector<TKey> & keys) = 0;
+  virtual bool hasUser(const std::string& pubkey, const int64_t keys) = 0;
   virtual TKey getIDByPublicKey(const std::string& publickey, const int64_t lastkey) = 0;
   virtual TErrorCode::type putData(const TKey key, const TUserInfo& data) = 0;
   virtual TErrorCode::type deleteUser(const TKey uid) = 0;
@@ -62,8 +62,8 @@ class TDataServiceNull : virtual public TDataServiceIf {
   void getListUsers(TListDataUsers& /* _return */, const std::vector<TKey> & /* keys */) {
     return;
   }
-  TErrorCode::type hasUser(const std::string& /* username */, const std::vector<TKey> & /* keys */) {
-    TErrorCode::type _return = (TErrorCode::type)0;
+  bool hasUser(const std::string& /* pubkey */, const int64_t /* keys */) {
+    bool _return = false;
     return _return;
   }
   TKey getIDByPublicKey(const std::string& /* publickey */, const int64_t /* lastkey */) {
@@ -289,8 +289,8 @@ class TDataService_getListUsers_presult {
 };
 
 typedef struct _TDataService_hasUser_args__isset {
-  _TDataService_hasUser_args__isset() : username(false), keys(false) {}
-  bool username :1;
+  _TDataService_hasUser_args__isset() : pubkey(false), keys(false) {}
+  bool pubkey :1;
   bool keys :1;
 } _TDataService_hasUser_args__isset;
 
@@ -299,22 +299,22 @@ class TDataService_hasUser_args {
 
   TDataService_hasUser_args(const TDataService_hasUser_args&);
   TDataService_hasUser_args& operator=(const TDataService_hasUser_args&);
-  TDataService_hasUser_args() : username() {
+  TDataService_hasUser_args() : pubkey(), keys(0) {
   }
 
   virtual ~TDataService_hasUser_args() throw();
-  std::string username;
-  std::vector<TKey>  keys;
+  std::string pubkey;
+  int64_t keys;
 
   _TDataService_hasUser_args__isset __isset;
 
-  void __set_username(const std::string& val);
+  void __set_pubkey(const std::string& val);
 
-  void __set_keys(const std::vector<TKey> & val);
+  void __set_keys(const int64_t val);
 
   bool operator == (const TDataService_hasUser_args & rhs) const
   {
-    if (!(username == rhs.username))
+    if (!(pubkey == rhs.pubkey))
       return false;
     if (!(keys == rhs.keys))
       return false;
@@ -337,8 +337,8 @@ class TDataService_hasUser_pargs {
 
 
   virtual ~TDataService_hasUser_pargs() throw();
-  const std::string* username;
-  const std::vector<TKey> * keys;
+  const std::string* pubkey;
+  const int64_t* keys;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -354,15 +354,15 @@ class TDataService_hasUser_result {
 
   TDataService_hasUser_result(const TDataService_hasUser_result&);
   TDataService_hasUser_result& operator=(const TDataService_hasUser_result&);
-  TDataService_hasUser_result() : success((TErrorCode::type)0) {
+  TDataService_hasUser_result() : success(0) {
   }
 
   virtual ~TDataService_hasUser_result() throw();
-  TErrorCode::type success;
+  bool success;
 
   _TDataService_hasUser_result__isset __isset;
 
-  void __set_success(const TErrorCode::type val);
+  void __set_success(const bool val);
 
   bool operator == (const TDataService_hasUser_result & rhs) const
   {
@@ -391,7 +391,7 @@ class TDataService_hasUser_presult {
 
 
   virtual ~TDataService_hasUser_presult() throw();
-  TErrorCode::type* success;
+  bool* success;
 
   _TDataService_hasUser_presult__isset __isset;
 
@@ -756,9 +756,9 @@ class TDataServiceClient : virtual public TDataServiceIf {
   void getListUsers(TListDataUsers& _return, const std::vector<TKey> & keys);
   void send_getListUsers(const std::vector<TKey> & keys);
   void recv_getListUsers(TListDataUsers& _return);
-  TErrorCode::type hasUser(const std::string& username, const std::vector<TKey> & keys);
-  void send_hasUser(const std::string& username, const std::vector<TKey> & keys);
-  TErrorCode::type recv_hasUser();
+  bool hasUser(const std::string& pubkey, const int64_t keys);
+  void send_hasUser(const std::string& pubkey, const int64_t keys);
+  bool recv_hasUser();
   TKey getIDByPublicKey(const std::string& publickey, const int64_t lastkey);
   void send_getIDByPublicKey(const std::string& publickey, const int64_t lastkey);
   TKey recv_getIDByPublicKey();
@@ -846,13 +846,13 @@ class TDataServiceMultiface : virtual public TDataServiceIf {
     return;
   }
 
-  TErrorCode::type hasUser(const std::string& username, const std::vector<TKey> & keys) {
+  bool hasUser(const std::string& pubkey, const int64_t keys) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->hasUser(username, keys);
+      ifaces_[i]->hasUser(pubkey, keys);
     }
-    return ifaces_[i]->hasUser(username, keys);
+    return ifaces_[i]->hasUser(pubkey, keys);
   }
 
   TKey getIDByPublicKey(const std::string& publickey, const int64_t lastkey) {
@@ -918,9 +918,9 @@ class TDataServiceConcurrentClient : virtual public TDataServiceIf {
   void getListUsers(TListDataUsers& _return, const std::vector<TKey> & keys);
   int32_t send_getListUsers(const std::vector<TKey> & keys);
   void recv_getListUsers(TListDataUsers& _return, const int32_t seqid);
-  TErrorCode::type hasUser(const std::string& username, const std::vector<TKey> & keys);
-  int32_t send_hasUser(const std::string& username, const std::vector<TKey> & keys);
-  TErrorCode::type recv_hasUser(const int32_t seqid);
+  bool hasUser(const std::string& pubkey, const int64_t keys);
+  int32_t send_hasUser(const std::string& pubkey, const int64_t keys);
+  bool recv_hasUser(const int32_t seqid);
   TKey getIDByPublicKey(const std::string& publickey, const int64_t lastkey);
   int32_t send_getIDByPublicKey(const std::string& publickey, const int64_t lastkey);
   TKey recv_getIDByPublicKey(const int32_t seqid);
