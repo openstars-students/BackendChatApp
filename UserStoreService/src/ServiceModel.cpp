@@ -106,7 +106,7 @@ bool ServiceModel::hasUser(const string& username,const int64_t keys)
 
 OpenStars::Platform::UserStore::TKey  ServiceModel::getIDByPublicKey(const std::string& publickey, const int64_t lastkey)
     {
-     cout<<" get here : "<<endl;
+     //cout<<" get here : "<<endl;
         class getIDByPublicKey_visitor : public PersistentStorageType::data_visitor {
     public:
 
@@ -122,10 +122,10 @@ OpenStars::Platform::UserStore::TKey  ServiceModel::getIDByPublicKey(const std::
     if (this->m_storage) {
         if(publickey!="" )
         {
-            cout<<" get here : "<<endl;
+            //cout<<" get here : "<<endl;
         getIDByPublicKey_visitor visitor(publickey);
         for(OpenStars::Platform::UserStore::TKey pos = 1; pos <=lastkey; pos++) {
-            cout<<" pos : "<<endl;
+            //cout<<" pos : "<<endl;
             this->m_storage->visit(pos, &visitor);
             if(visitor.check)
                 return pos;
