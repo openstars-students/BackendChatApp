@@ -120,7 +120,9 @@ OpenStars::Platform::UserStore::TKey  ServiceModel::getIDByPublicKey(const std::
         bool check;
     };
     if (this->m_storage) {
-        cout<<" get here : "<<endl;
+        if(publickey!="" )
+        {
+            cout<<" get here : "<<endl;
         getIDByPublicKey_visitor visitor(publickey);
         for(OpenStars::Platform::UserStore::TKey pos = 1; pos <=lastkey; pos++) {
             cout<<" pos : "<<endl;
@@ -130,6 +132,8 @@ OpenStars::Platform::UserStore::TKey  ServiceModel::getIDByPublicKey(const std::
             //cout<<"return: "<<_return.listuser[pos]<<endl;
         }
         return 0;
+        } else return 0;
+        
     }
     else{
         return 0;

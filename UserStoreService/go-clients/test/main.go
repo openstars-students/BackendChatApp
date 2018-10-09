@@ -48,10 +48,10 @@ func main() {
 	// 	 fmt.Println("get after getlist :", res3.Listuser[(UserStore.TKey)(i)].Username)
 	// 	}
 	// 	//fmt.Println("get after remove :", res.GetDataontent)
-	res4, _ := aClient.Client.(*UserStore.TUserStoreServiceClient).HasUser(context.Background(), "qwertyuio", 2)
-	fmt.Println("hasuser: ", res4)
+	//res4, _ := aClient.Client.(*UserStore.TUserStoreServiceClient).HasUser(context.Background(), "qwertyuio", 2)
+	//fmt.Println("hasuser: ", res4)
 
-	// res4, _:= aClient.Client.(*UserStore.TUserStoreServiceClient).GetIDByPublicKey(context.Background(),"qwertyuio",10)
-	// fmt.Println("hasuser: ", res4)
+	res4, _ := aClient.Client.(*UserStore.TUserStoreServiceClient).GetIDByPublicKey(context.Background(), "", 10)
+	fmt.Println("get id by pubkey: ", res4)
 
 }
