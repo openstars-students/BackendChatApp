@@ -97,6 +97,7 @@ func TDataPtr(v TData) *TData { return &v }
 //  - Listconversation
 //  - Status
 //  - Publickey
+//  - Avatar
 type TUserInfo struct {
   UID TKey `thrift:"uid,1" db:"uid" json:"uid"`
   Username string `thrift:"username,2" db:"username" json:"username"`
@@ -107,6 +108,7 @@ type TUserInfo struct {
   Listconversation []int64 `thrift:"listconversation,7" db:"listconversation" json:"listconversation"`
   Status int64 `thrift:"status,8" db:"status" json:"status"`
   Publickey string `thrift:"publickey,9" db:"publickey" json:"publickey"`
+  Avatar string `thrift:"avatar,10" db:"avatar" json:"avatar"`
 }
 
 func NewTUserInfo() *TUserInfo {
@@ -148,6 +150,10 @@ func (p *TUserInfo) GetStatus() int64 {
 
 func (p *TUserInfo) GetPublickey() string {
   return p.Publickey
+}
+
+func (p *TUserInfo) GetAvatar() string {
+  return p.Avatar
 }
 func (p *TUserInfo) Read(iprot thrift.TProtocol) error {
   if _, err := iprot.ReadStructBegin(); err != nil {
@@ -245,6 +251,16 @@ func (p *TUserInfo) Read(iprot thrift.TProtocol) error {
     case 9:
       if fieldTypeId == thrift.STRING {
         if err := p.ReadField9(iprot); err != nil {
+          return err
+        }
+      } else {
+        if err := iprot.Skip(fieldTypeId); err != nil {
+          return err
+        }
+      }
+    case 10:
+      if fieldTypeId == thrift.STRING {
+        if err := p.ReadField10(iprot); err != nil {
           return err
         }
       } else {
@@ -375,6 +391,15 @@ func (p *TUserInfo)  ReadField9(iprot thrift.TProtocol) error {
   return nil
 }
 
+func (p *TUserInfo)  ReadField10(iprot thrift.TProtocol) error {
+  if v, err := iprot.ReadString(); err != nil {
+  return thrift.PrependError("error reading field 10: ", err)
+} else {
+  p.Avatar = v
+}
+  return nil
+}
+
 func (p *TUserInfo) Write(oprot thrift.TProtocol) error {
   if err := oprot.WriteStructBegin("TUserInfo"); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err) }
@@ -388,6 +413,7 @@ func (p *TUserInfo) Write(oprot thrift.TProtocol) error {
     if err := p.writeField7(oprot); err != nil { return err }
     if err := p.writeField8(oprot); err != nil { return err }
     if err := p.writeField9(oprot); err != nil { return err }
+    if err := p.writeField10(oprot); err != nil { return err }
   }
   if err := oprot.WriteFieldStop(); err != nil {
     return thrift.PrependError("write field stop error: ", err) }
@@ -499,6 +525,16 @@ func (p *TUserInfo) writeField9(oprot thrift.TProtocol) (err error) {
   return thrift.PrependError(fmt.Sprintf("%T.publickey (9) field write error: ", p), err) }
   if err := oprot.WriteFieldEnd(); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T write field end error 9:publickey: ", p), err) }
+  return err
+}
+
+func (p *TUserInfo) writeField10(oprot thrift.TProtocol) (err error) {
+  if err := oprot.WriteFieldBegin("avatar", thrift.STRING, 10); err != nil {
+    return thrift.PrependError(fmt.Sprintf("%T write field begin error 10:avatar: ", p), err) }
+  if err := oprot.WriteString(string(p.Avatar)); err != nil {
+  return thrift.PrependError(fmt.Sprintf("%T.avatar (10) field write error: ", p), err) }
+  if err := oprot.WriteFieldEnd(); err != nil {
+    return thrift.PrependError(fmt.Sprintf("%T write field end error 10:avatar: ", p), err) }
   return err
 }
 

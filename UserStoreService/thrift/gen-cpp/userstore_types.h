@@ -44,7 +44,7 @@ class TDataResult;
 class TListDataUsers;
 
 typedef struct _TUserInfo__isset {
-  _TUserInfo__isset() : uid(false), username(false), displayname(false), emails(false), mobiles(false), listfriend(false), listconversation(false), status(false), publickey(false) {}
+  _TUserInfo__isset() : uid(false), username(false), displayname(false), emails(false), mobiles(false), listfriend(false), listconversation(false), status(false), publickey(false), avatar(false) {}
   bool uid :1;
   bool username :1;
   bool displayname :1;
@@ -54,6 +54,7 @@ typedef struct _TUserInfo__isset {
   bool listconversation :1;
   bool status :1;
   bool publickey :1;
+  bool avatar :1;
 } _TUserInfo__isset;
 
 class TUserInfo : public virtual ::apache::thrift::TBase {
@@ -61,7 +62,7 @@ class TUserInfo : public virtual ::apache::thrift::TBase {
 
   TUserInfo(const TUserInfo&);
   TUserInfo& operator=(const TUserInfo&);
-  TUserInfo() : uid(0), username(), displayname(), emails(), mobiles(), status(0), publickey() {
+  TUserInfo() : uid(0), username(), displayname(), emails(), mobiles(), status(0), publickey(), avatar() {
   }
 
   virtual ~TUserInfo() throw();
@@ -74,6 +75,7 @@ class TUserInfo : public virtual ::apache::thrift::TBase {
   std::vector<int64_t>  listconversation;
   int64_t status;
   std::string publickey;
+  std::string avatar;
 
   _TUserInfo__isset __isset;
 
@@ -95,6 +97,8 @@ class TUserInfo : public virtual ::apache::thrift::TBase {
 
   void __set_publickey(const std::string& val);
 
+  void __set_avatar(const std::string& val);
+
   bool operator == (const TUserInfo & rhs) const
   {
     if (!(uid == rhs.uid))
@@ -114,6 +118,8 @@ class TUserInfo : public virtual ::apache::thrift::TBase {
     if (!(status == rhs.status))
       return false;
     if (!(publickey == rhs.publickey))
+      return false;
+    if (!(avatar == rhs.avatar))
       return false;
     return true;
   }

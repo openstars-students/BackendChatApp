@@ -77,6 +77,10 @@ void TUserInfo::__set_status(const int64_t val) {
 void TUserInfo::__set_publickey(const std::string& val) {
   this->publickey = val;
 }
+
+void TUserInfo::__set_avatar(const std::string& val) {
+  this->avatar = val;
+}
 std::ostream& operator<<(std::ostream& out, const TUserInfo& obj)
 {
   obj.printTo(out);
@@ -201,6 +205,14 @@ uint32_t TUserInfo::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
+      case 10:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->avatar);
+          this->__isset.avatar = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -270,6 +282,10 @@ uint32_t TUserInfo::write(::apache::thrift::protocol::TProtocol* oprot) const {
   xfer += oprot->writeString(this->publickey);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("avatar", ::apache::thrift::protocol::T_STRING, 10);
+  xfer += oprot->writeString(this->avatar);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -286,6 +302,7 @@ void swap(TUserInfo &a, TUserInfo &b) {
   swap(a.listconversation, b.listconversation);
   swap(a.status, b.status);
   swap(a.publickey, b.publickey);
+  swap(a.avatar, b.avatar);
   swap(a.__isset, b.__isset);
 }
 
@@ -299,6 +316,7 @@ TUserInfo::TUserInfo(const TUserInfo& other12) {
   listconversation = other12.listconversation;
   status = other12.status;
   publickey = other12.publickey;
+  avatar = other12.avatar;
   __isset = other12.__isset;
 }
 TUserInfo& TUserInfo::operator=(const TUserInfo& other13) {
@@ -311,6 +329,7 @@ TUserInfo& TUserInfo::operator=(const TUserInfo& other13) {
   listconversation = other13.listconversation;
   status = other13.status;
   publickey = other13.publickey;
+  avatar = other13.avatar;
   __isset = other13.__isset;
   return *this;
 }
@@ -326,6 +345,7 @@ void TUserInfo::printTo(std::ostream& out) const {
   out << ", " << "listconversation=" << to_string(listconversation);
   out << ", " << "status=" << to_string(status);
   out << ", " << "publickey=" << to_string(publickey);
+  out << ", " << "avatar=" << to_string(avatar);
   out << ")";
 }
 

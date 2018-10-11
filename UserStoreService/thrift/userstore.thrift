@@ -21,6 +21,7 @@ struct TUserInfo{
     7: list<i64> listconversation,
     8: i64 status,
     9: string publickey, //for using with secp256k1
+    10: string avatar
 }
 
 typedef TUserInfo TData
